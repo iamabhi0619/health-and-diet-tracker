@@ -28,17 +28,37 @@ const Navbar = () => {
     }, [isOpen]);
 
     const navLinks = [
-        { name: 'Home', href: '#home' },
-        { name: 'Tracker', href: '#tracker' },
-        { name: 'Nutrition', href: '#nutrition' },
-        { name: 'Workouts', href: '#workouts' },
-        { name: 'Progress', href: '#progress' },
-        { name: 'About', href: '#about' },
+        { name: 'Home', href: '/', type: 'route' },
+        { name: 'Tracker', href: '/dashboard', type: 'route' },
+        { name: 'Nutrition', href: '/nutrition', type: 'route' },
+        { name: 'Workouts', href: '/workouts', type: 'route' },
+        { name: 'Progress', href: '/goals', type: 'route' },
+        { name: 'Settings', href: '/settings', type: 'route' },
     ];
 
-    const handleLinkClick = (href) => {
-        setActiveSection(href.slice(1));
+    const handleLinkClick = (href, type) => {
         setIsOpen(false);
+        
+        if (type === 'anchor') {
+            // For anchor links, navigate to home first if not there
+            if (location.pathname !== '/') {
+                navigate('/');
+                // Wait for navigation, then scroll
+                setTimeout(() => {
+                    const element = document.querySelector(href);
+                    if (element) {
+                        element.scrollIntoView({ behavior: 'smooth' });
+                    }
+                }, 100);
+            } else {
+                // Already on home, just scroll
+                const element = document.querySelector(href);
+                if (element) {
+                    element.scrollIntoView({ behavior: 'smooth' });
+                }
+            }
+            setActiveSection(href.slice(1));
+        }
     };
 
     // Animation variants
@@ -125,48 +145,77 @@ const Navbar = () => {
 
                     {/* Desktop Navigation */}
                     <div className="hidden md:flex items-center space-x-1">
-                        {navLinks.map((link, index) => (
-                            <motion.a
-                                key={link.name}
-                                href={link.href}
-                                onClick={() => handleLinkClick(link.href)}
-                                className={`relative px-3 py-2 rounded-lg text-sm font-medium transition-colors ${activeSection === link.href.slice(1)
-                                    ? 'text-primary'
-                                    : 'text-text hover:text-primary'
+                        {navLinks.map((link, index) => {
+                            const isActive = link.type === 'route' 
+                                ? location.pathname === link.href 
+                                : activeSection === link.href.slice(1);
+                            
+                            const linkContent = (
+                                <motion.div
+                                    className={`relative px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                                        isActive ? 'text-primary' : 'text-text hover:text-primary'
                                     }`}
-                                initial={{ opacity: 0, y: -20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: index * 0.1 }}
+                                    initial={{ opacity: 0, y: -20 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ delay: index * 0.1 }}
+                                    whileHover={{ scale: 1.05 }}
+                                    whileTap={{ scale: 0.95 }}
+                                >
+                                    {link.name}
+                                    {isActive && (
+                                        <motion.div
+                                            layoutId="activeSection"
+                                            className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary"
+                                            initial={false}
+                                            transition={{
+                                                type: 'spring',
+                                                stiffness: 380,
+                                                damping: 30,
+                                            }}
+                                        />
+                                    )}
+                                </motion.div>
+                            );
+
+                            return link.type === 'route' ? (
+                                <Link key={link.name} to={link.href}>
+                                    {linkContent}
+                                </Link>
+                            ) : (
+                                <button
+                                    key={link.name}
+                                    onClick={() => handleLinkClick(link.href, link.type)}
+                                >
+                                    {linkContent}
+                                </button>
+                            );
+                        })}
+
+                        {/* Auth Buttons */}
+                        <Link to="/login">
+                            <motion.button
+                                className="ml-3 px-5 py-2 text-primary font-medium hover:bg-primary/10 rounded-full transition-all"
+                                initial={{ opacity: 0, scale: 0 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                transition={{ delay: 0.6, type: 'spring' }}
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}
                             >
-                                {link.name}
-                                {activeSection === link.href.slice(1) && (
-                                    <motion.div
-                                        layoutId="activeSection"
-                                        className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary"
-                                        initial={false}
-                                        transition={{
-                                            type: 'spring',
-                                            stiffness: 380,
-                                            damping: 30,
-                                        }}
-                                    />
-                                )}
-                            </motion.a>
-                        ))}
-
-                        {/* CTA Button */}
-                        <motion.button
-                            className="ml-3 px-5 py-2 bg-primary text-white rounded-full font-medium shadow-md hover:shadow-lg hover:bg-primary/90 transition-all"
-                            initial={{ opacity: 0, scale: 0 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            transition={{ delay: 0.6, type: 'spring' }}
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
-                        >
-                            Get Started
-                        </motion.button>
+                                Login
+                            </motion.button>
+                        </Link>
+                        <Link to="/signup">
+                            <motion.button
+                                className="ml-1 px-5 py-2 bg-primary text-white rounded-full font-medium shadow-md hover:shadow-lg hover:bg-primary/90 transition-all"
+                                initial={{ opacity: 0, scale: 0 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                transition={{ delay: 0.7, type: 'spring' }}
+                                whileHover={{ scale: 1.05 }}
+                                whileTap={{ scale: 0.95 }}
+                            >
+                                Sign Up
+                            </motion.button>
+                        </Link>
                     </div>
 
                     {/* Mobile Menu Button */}
@@ -209,31 +258,69 @@ const Navbar = () => {
                         variants={menuVariants}
                     >
                         <div className="flex flex-col items-center justify-start py-6 px-4 space-y-2 h-full overflow-y-auto">
-                            {navLinks.map((link) => (
-                                <motion.a
-                                    key={link.name}
-                                    href={link.href}
-                                    onClick={() => handleLinkClick(link.href)}
-                                    variants={menuItemVariants}
-                                    className={`w-full max-w-sm px-5 py-3 rounded-lg text-center text-base font-medium transition-all ${activeSection === link.href.slice(1)
-                                        ? 'bg-primary text-white shadow-md'
-                                        : 'bg-bg hover:bg-primary/10 text-text'
+                            {navLinks.map((link) => {
+                                const isActive = link.type === 'route' 
+                                    ? location.pathname === link.href 
+                                    : activeSection === link.href.slice(1);
+                                
+                                const linkContent = (
+                                    <motion.div
+                                        variants={menuItemVariants}
+                                        className={`w-full max-w-sm px-5 py-3 rounded-lg text-center text-base font-medium transition-all ${
+                                            isActive
+                                                ? 'bg-primary text-white shadow-md'
+                                                : 'bg-bg hover:bg-primary/10 text-text'
                                         }`}
-                                    whileHover={{ scale: 1.02, x: 5 }}
-                                    whileTap={{ scale: 0.98 }}
-                                >
-                                    {link.name}
-                                </motion.a>
-                            ))}
+                                        whileHover={{ scale: 1.02, x: 5 }}
+                                        whileTap={{ scale: 0.98 }}
+                                    >
+                                        {link.name}
+                                    </motion.div>
+                                );
 
-                            <motion.button
-                                variants={menuItemVariants}
-                                className="mt-3 w-full max-w-sm px-5 py-3 bg-accent text-white rounded-lg font-semibold text-base shadow-md"
-                                whileHover={{ scale: 1.02, y: -2 }}
-                                whileTap={{ scale: 0.98 }}
-                            >
-                                Get Started
-                            </motion.button>
+                                return link.type === 'route' ? (
+                                    <Link 
+                                        key={link.name} 
+                                        to={link.href}
+                                        onClick={() => setIsOpen(false)}
+                                        className="w-full"
+                                    >
+                                        {linkContent}
+                                    </Link>
+                                ) : (
+                                    <button
+                                        key={link.name}
+                                        onClick={() => handleLinkClick(link.href, link.type)}
+                                        className="w-full"
+                                    >
+                                        {linkContent}
+                                    </button>
+                                );
+                            })}
+
+                            <div className="w-full max-w-sm border-t border-border pt-3 mt-3 space-y-2">
+                                <Link to="/login" onClick={() => setIsOpen(false)}>
+                                    <motion.button
+                                        variants={menuItemVariants}
+                                        className="w-full px-5 py-3 bg-bg hover:bg-primary/10 text-primary rounded-lg font-semibold text-base"
+                                        whileHover={{ scale: 1.02, y: -2 }}
+                                        whileTap={{ scale: 0.98 }}
+                                    >
+                                        Login
+                                    </motion.button>
+                                </Link>
+
+                                <Link to="/signup" onClick={() => setIsOpen(false)}>
+                                    <motion.button
+                                        variants={menuItemVariants}
+                                        className="w-full px-5 py-3 bg-accent text-white rounded-lg font-semibold text-base shadow-md"
+                                        whileHover={{ scale: 1.02, y: -2 }}
+                                        whileTap={{ scale: 0.98 }}
+                                    >
+                                        Sign Up
+                                    </motion.button>
+                                </Link>
+                            </div>
                         </div>
                     </motion.div>
                 )}
