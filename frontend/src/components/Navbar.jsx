@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import Logo from '../assets/Logo';
 import { Link} from 'react-router-dom';
 
@@ -62,87 +61,27 @@ const Navbar = () => {
         }
     };
 
-    // Animation variants
-    const navbarVariants = {
-        hidden: { y: -100, opacity: 0 },
-        visible: {
-            y: 0,
-            opacity: 1,
-            transition: {
-                type: 'spring',
-                stiffness: 100,
-                damping: 20,
-            },
-        },
-    };
-
-    const menuVariants = {
-        closed: {
-            opacity: 0,
-            x: '100%',
-            transition: {
-                staggerChildren: 0.05,
-                staggerDirection: -1,
-            },
-        },
-        open: {
-            opacity: 1,
-            x: 0,
-            transition: {
-                type: 'spring',
-                stiffness: 100,
-                damping: 20,
-                staggerChildren: 0.07,
-                delayChildren: 0.1,
-            },
-        },
-    };
-
-    const menuItemVariants = {
-        closed: {
-            x: 50,
-            opacity: 0,
-        },
-        open: {
-            x: 0,
-            opacity: 1,
-        },
-    };
-
     return (
-        <motion.nav
-            variants={navbarVariants}
-            initial="hidden"
-            animate="visible"
-            className={`navbar-container fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled
-                ? 'bg-surface/80 backdrop-blur-lg shadow-lg'
-                : 'bg-transparent'
+        <nav
+            className={`navbar-container fixed top-0 left-0 right-0 z-50 transition-all duration-300 animate-slide-in-down ${scrolled
+                ? 'bg-white/80 backdrop-blur-lg shadow-lg'
+                : 'bg-white/50 backdrop-blur-sm'
                 }`}
         >
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex items-center justify-between h-16">
                     {/* Logo and Brand */}
-                    <motion.div
-                        className="flex items-center space-x-2"
-                        initial="initial"
-                        animate="animate"
-                        whileHover="hover"
-                    >
-                        <Logo height={36} width={36} className="fill-primary" />
-                        <motion.div
-                            className="flex flex-col"
-                            initial={{ opacity: 0, x: -20 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            transition={{ delay: 0.2 }}
-                        >
-                            <span className="text-xl font-bold text-primary">
+                    <div className="flex items-center space-x-2 animate-fade-in">
+                        <Logo height={36} width={36} className="fill-[#06D6A0]" />
+                        <div className="flex flex-col animate-slide-in-left delay-200">
+                            <span className="text-xl font-bold text-gray-900">
                                 FitMind
                             </span>
-                            <span className="text-xs text-text-secondary tracking-wide hidden sm:block">
+                            <span className="text-xs text-gray-500 tracking-wide hidden sm:block">
                                 Health & Diet
                             </span>
-                        </motion.div>
-                    </motion.div>
+                        </div>
+                    </div>
 
                     {/* Desktop Navigation */}
                     <div className="hidden md:flex items-center space-x-1">
@@ -152,30 +91,17 @@ const Navbar = () => {
                                 : activeSection === link.href.slice(1);
                             
                             const linkContent = (
-                                <motion.div
-                                    className={`relative px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
-                                        isActive ? 'text-primary' : 'text-text hover:text-primary'
+                                <div
+                                    className={`relative px-3 py-2 rounded-lg text-sm font-medium transition-all hover:scale-105 active:scale-95 animate-fade-in ${
+                                        isActive ? 'text-[#06D6A0]' : 'text-gray-700 hover:text-[#06D6A0]'
                                     }`}
-                                    initial={{ opacity: 0, y: -20 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    transition={{ delay: index * 0.1 }}
-                                    whileHover={{ scale: 1.05 }}
-                                    whileTap={{ scale: 0.95 }}
+                                    style={{ animationDelay: `${index * 100}ms` }}
                                 >
                                     {link.name}
                                     {isActive && (
-                                        <motion.div
-                                            layoutId="activeSection"
-                                            className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary"
-                                            initial={false}
-                                            transition={{
-                                                type: 'spring',
-                                                stiffness: 380,
-                                                damping: 30,
-                                            }}
-                                        />
+                                        <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#06D6A0]" />
                                     )}
-                                </motion.div>
+                                </div>
                             );
 
                             return link.type === 'route' ? (
@@ -194,148 +120,123 @@ const Navbar = () => {
 
                         {/* Auth Buttons */}
                         <Link to="/login">
-                            <motion.button
-                                className="ml-3 px-5 py-2 text-primary font-medium hover:bg-primary/10 rounded-full transition-all"
-                                initial={{ opacity: 0, scale: 0 }}
-                                animate={{ opacity: 1, scale: 1 }}
-                                transition={{ delay: 0.6, type: 'spring' }}
-                                whileHover={{ scale: 1.05 }}
-                                whileTap={{ scale: 0.95 }}
+                            <button
+                                className="ml-3 px-5 py-2 text-gray-700 font-medium hover:bg-[#06D6A0]/10 rounded-full transition-all hover:scale-105 active:scale-95 animate-scale-in delay-300"
                             >
                                 Login
-                            </motion.button>
+                            </button>
                         </Link>
                         <Link to="/signup">
-                            <motion.button
-                                className="ml-1 px-5 py-2 bg-primary text-white rounded-full font-medium shadow-md hover:shadow-lg hover:bg-primary/90 transition-all"
-                                initial={{ opacity: 0, scale: 0 }}
-                                animate={{ opacity: 1, scale: 1 }}
-                                transition={{ delay: 0.7, type: 'spring' }}
-                                whileHover={{ scale: 1.05 }}
-                                whileTap={{ scale: 0.95 }}
+                            <button
+                                className="ml-1 px-5 py-2 bg-[#06D6A0] text-white rounded-full font-medium shadow-md hover:shadow-lg hover:bg-[#06D6A0]/90 transition-all hover:scale-105 active:scale-95 animate-scale-in delay-400"
                             >
                                 Sign Up
-                            </motion.button>
+                            </button>
                         </Link>
                     </div>
 
                     {/* Mobile Menu Button */}
-                    <motion.button
-                        className="md:hidden relative w-9 h-9 flex items-center justify-center rounded-lg bg-surface hover:bg-primary/10 transition-colors"
+                    <button
+                        className="md:hidden relative w-9 h-9 flex items-center justify-center rounded-lg bg-gray-100 hover:bg-[#06D6A0]/10 transition-all hover:scale-110 active:scale-90"
                         onClick={() => setIsOpen(!isOpen)}
-                        whileHover={{ scale: 1.1 }}
-                        whileTap={{ scale: 0.9 }}
                     >
                         <div className="w-5 flex flex-col items-center justify-center space-y-1.5">
-                            <motion.span
-                                className="w-full h-0.5 bg-primary rounded-full"
-                                animate={isOpen ? { rotate: 45, y: 8 } : { rotate: 0, y: 0 }}
-                                transition={{ duration: 0.3 }}
+                            <span
+                                className={`w-full h-0.5 bg-[#06D6A0] rounded-full transition-all duration-300 ${
+                                    isOpen ? 'rotate-45 translate-y-2' : ''
+                                }`}
                             />
-                            <motion.span
-                                className="w-full h-0.5 bg-primary rounded-full"
-                                animate={isOpen ? { opacity: 0 } : { opacity: 1 }}
-                                transition={{ duration: 0.3 }}
+                            <span
+                                className={`w-full h-0.5 bg-[#06D6A0] rounded-full transition-all duration-300 ${
+                                    isOpen ? 'opacity-0' : 'opacity-100'
+                                }`}
                             />
-                            <motion.span
-                                className="w-full h-0.5 bg-primary rounded-full"
-                                animate={isOpen ? { rotate: -45, y: -8 } : { rotate: 0, y: 0 }}
-                                transition={{ duration: 0.3 }}
+                            <span
+                                className={`w-full h-0.5 bg-[#06D6A0] rounded-full transition-all duration-300 ${
+                                    isOpen ? '-rotate-45 -translate-y-2' : ''
+                                }`}
                             />
                         </div>
-                    </motion.button>
+                    </button>
                 </div>
             </div>
 
             {/* Mobile Menu */}
-            <AnimatePresence>
-                {isOpen && (
-                    <motion.div
-                        className="md:hidden fixed left-0 right-0 bg-surface/98 backdrop-blur-xl z-40 h-dvh"
-                        style={{ top: '64px', bottom: 0 }}
-                        initial="closed"
-                        animate="open"
-                        exit="closed"
-                        variants={menuVariants}
-                    >
-                        <div className="flex flex-col items-center justify-start py-6 px-4 space-y-2 h-full overflow-y-auto">
-                            {navLinks.map((link) => {
-                                const isActive = link.type === 'route' 
-                                    ? location.pathname === link.href 
-                                    : activeSection === link.href.slice(1);
-                                
-                                const linkContent = (
-                                    <motion.div
-                                        variants={menuItemVariants}
-                                        className={`w-full max-w-sm px-5 py-3 rounded-lg text-center text-base font-medium transition-all ${
-                                            isActive
-                                                ? 'bg-primary text-white shadow-md'
-                                                : 'bg-bg hover:bg-primary/10 text-text'
-                                        }`}
-                                        whileHover={{ scale: 1.02, x: 5 }}
-                                        whileTap={{ scale: 0.98 }}
-                                    >
-                                        {link.name}
-                                    </motion.div>
-                                );
+            {isOpen && (
+                <div
+                    className="md:hidden fixed left-0 right-0 bg-white/98 backdrop-blur-xl z-40 h-dvh animate-slide-in-right"
+                    style={{ top: '64px', bottom: 0 }}
+                >
+                    <div className="flex flex-col items-center justify-start py-6 px-4 space-y-2 h-full overflow-y-auto">
+                        {navLinks.map((link, index) => {
+                            const isActive = link.type === 'route' 
+                                ? location.pathname === link.href 
+                                : activeSection === link.href.slice(1);
+                            
+                            const linkContent = (
+                                <div
+                                    className={`w-full max-w-sm px-5 py-3 rounded-lg text-center text-base font-medium transition-all hover:scale-[1.02] hover:translate-x-1 active:scale-98 animate-slide-in-left ${
+                                        isActive
+                                            ? 'bg-[#06D6A0] text-white shadow-md'
+                                            : 'bg-gray-50 hover:bg-[#06D6A0]/10 text-gray-900'
+                                    }`}
+                                    style={{ animationDelay: `${index * 70}ms` }}
+                                >
+                                    {link.name}
+                                </div>
+                            );
 
-                                return link.type === 'route' ? (
-                                    <Link 
-                                        key={link.name} 
-                                        to={link.href}
-                                        onClick={() => setIsOpen(false)}
-                                        className="w-full"
-                                    >
-                                        {linkContent}
-                                    </Link>
-                                ) : (
-                                    <button
-                                        key={link.name}
-                                        onClick={() => handleLinkClick(link.href, link.type)}
-                                        className="w-full"
-                                    >
-                                        {linkContent}
-                                    </button>
-                                );
-                            })}
-
-                            <div className="w-full max-w-sm border-t border-border pt-3 mt-3 space-y-2">
-                                <Link to="/login" onClick={() => setIsOpen(false)}>
-                                    <motion.button
-                                        variants={menuItemVariants}
-                                        className="w-full px-5 py-3 bg-bg hover:bg-primary/10 text-primary rounded-lg font-semibold text-base"
-                                        whileHover={{ scale: 1.02, y: -2 }}
-                                        whileTap={{ scale: 0.98 }}
-                                    >
-                                        Login
-                                    </motion.button>
+                            return link.type === 'route' ? (
+                                <Link 
+                                    key={link.name} 
+                                    to={link.href}
+                                    onClick={() => setIsOpen(false)}
+                                    className="w-full"
+                                >
+                                    {linkContent}
                                 </Link>
+                            ) : (
+                                <button
+                                    key={link.name}
+                                    onClick={() => handleLinkClick(link.href, link.type)}
+                                    className="w-full"
+                                >
+                                    {linkContent}
+                                </button>
+                            );
+                        })}
 
-                                <Link to="/signup" onClick={() => setIsOpen(false)}>
-                                    <motion.button
-                                        variants={menuItemVariants}
-                                        className="w-full px-5 py-3 bg-accent text-white rounded-lg font-semibold text-base shadow-md"
-                                        whileHover={{ scale: 1.02, y: -2 }}
-                                        whileTap={{ scale: 0.98 }}
-                                    >
-                                        Sign Up
-                                    </motion.button>
-                                </Link>
-                            </div>
+                        <div className="w-full max-w-sm border-t border-gray-200 pt-3 mt-3 space-y-2">
+                            <Link to="/login" onClick={() => setIsOpen(false)}>
+                                <button
+                                    className="w-full px-5 py-3 bg-gray-50 hover:bg-[#06D6A0]/10 text-gray-900 rounded-lg font-semibold text-base transition-all hover:scale-[1.02] hover:-translate-y-0.5 active:scale-98 animate-fade-in"
+                                    style={{ animationDelay: `${navLinks.length * 70}ms` }}
+                                >
+                                    Login
+                                </button>
+                            </Link>
+
+                            <Link to="/signup" onClick={() => setIsOpen(false)}>
+                                <button
+                                    className="w-full px-5 py-3 bg-[#06D6A0] text-white rounded-lg font-semibold text-base shadow-md transition-all hover:scale-[1.02] hover:-translate-y-0.5 active:scale-98 animate-fade-in"
+                                    style={{ animationDelay: `${(navLinks.length + 1) * 70}ms` }}
+                                >
+                                    Sign Up
+                                </button>
+                            </Link>
                         </div>
-                    </motion.div>
-                )}
-            </AnimatePresence>
+                    </div>
+                </div>
+            )}
 
             {/* Navbar Bottom Line */}
-            <motion.div
-                className="h-0.5 bg-primary"
-                initial={{ scaleX: 0 }}
-                animate={{ scaleX: scrolled ? 1 : 0 }}
-                transition={{ duration: 0.3 }}
+            <div
+                className={`h-0.5 bg-linear-to-r from-[#06D6A0] via-cyan-500 to-teal-600 transition-all duration-300 ${
+                    scrolled ? 'scale-x-100' : 'scale-x-0'
+                }`}
                 style={{ transformOrigin: 'left' }}
             />
-        </motion.nav>
+        </nav>
     );
 };
 

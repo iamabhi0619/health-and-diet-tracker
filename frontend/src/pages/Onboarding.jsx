@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { AnimatePresence } from 'framer-motion';
 import WelcomeScreen from './onboarding/WelcomeScreen';
 import AgeScreen from './onboarding/AgeScreen';
 import GenderScreen from './onboarding/GenderScreen';
@@ -180,9 +179,9 @@ const Onboarding = () => {
 
     return (
         <div className="onboarding-container">
-            <AnimatePresence mode="wait">
+            <div className="animate-fade-in">
                 {screens[currentStep]}
-            </AnimatePresence>
+            </div>
         </div>
     );
 };
