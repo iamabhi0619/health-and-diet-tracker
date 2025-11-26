@@ -1,6 +1,20 @@
 import { useState } from 'react';
-import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
+import { 
+  ArrowLeft, 
+  BarChart3, 
+  Utensils, 
+  Scale, 
+  Target, 
+  Flame, 
+  TrendingUp, 
+  FileText, 
+  FileSpreadsheet, 
+  Mail,
+  Trophy,
+  Sparkles,
+  TrendingDown
+} from 'lucide-react';
 
 export default function ReportsPage() {
   const navigate = useNavigate();
@@ -52,11 +66,12 @@ export default function ReportsPage() {
                 onClick={() => navigate('/')}
                 className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
               >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                </svg>
+                <ArrowLeft className="w-5 h-5" />
               </button>
-              <h1 className="text-2xl font-bold text-gray-900">📊 Reports</h1>
+              <div className="flex items-center gap-2">
+                <BarChart3 className="w-6 h-6 text-[#06D6A0]" />
+                <h1 className="text-2xl font-bold text-gray-900">Reports</h1>
+              </div>
             </div>
 
             {/* Period Toggle */}
@@ -83,76 +98,94 @@ export default function ReportsPage() {
         
         {/* Insights Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="bg-gradient-to-br from-[#06D6A0] to-[#073B4C] rounded-xl p-6 text-white"
-          >
-            <div className="text-3xl mb-2">🍽️</div>
+          <div className="bg-linear-to-br from-[#06D6A0] to-[#073B4C] rounded-xl p-6 text-white animate-fade-in">
+            <div className="inline-flex items-center justify-center w-14 h-14 mb-4 rounded-2xl bg-white/20 backdrop-blur-sm">
+              <Utensils className="w-7 h-7" />
+            </div>
             <div className="text-2xl font-bold">{data.insights.avgCalories}</div>
             <div className="text-sm opacity-90">Avg Daily Calories</div>
-            <div className="mt-2 text-xs opacity-75">
-              {data.insights.avgCalories > weeklyData.caloriesTarget ? '↑' : '↓'} 
+            <div className="mt-2 text-xs opacity-75 flex items-center gap-1">
+              {data.insights.avgCalories > weeklyData.caloriesTarget ? (
+                <TrendingUp className="w-3 h-3" />
+              ) : (
+                <TrendingDown className="w-3 h-3" />
+              )}
               {Math.abs(data.insights.avgCalories - weeklyData.caloriesTarget)} from target
             </div>
-          </motion.div>
+          </div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="bg-gradient-to-br from-[#FFD166] to-[#EF476F] rounded-xl p-6 text-white"
-          >
-            <div className="text-3xl mb-2">⚖️</div>
+          <div className="bg-linear-to-br from-[#FFD166] to-[#EF476F] rounded-xl p-6 text-white animate-fade-in delay-100">
+            <div className="inline-flex items-center justify-center w-14 h-14 mb-4 rounded-2xl bg-white/20 backdrop-blur-sm">
+              <Scale className="w-7 h-7" />
+            </div>
             <div className="text-2xl font-bold">{data.insights.weightChange} kg</div>
             <div className="text-sm opacity-90">Weight Change</div>
-            <div className="mt-2 text-xs opacity-75">
-              {data.insights.weightChange < 0 ? 'Great progress! 🎉' : 'Keep going 💪'}
+            <div className="mt-2 text-xs opacity-75 flex items-center gap-1">
+              {data.insights.weightChange < 0 ? (
+                <>
+                  <Trophy className="w-3 h-3" />
+                  <span>Great progress!</span>
+                </>
+              ) : (
+                <>
+                  <Flame className="w-3 h-3" />
+                  <span>Keep going!</span>
+                </>
+              )}
             </div>
-          </motion.div>
+          </div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="bg-gradient-to-br from-[#073B4C] to-[#118AB2] rounded-xl p-6 text-white"
-          >
-            <div className="text-3xl mb-2">🎯</div>
+          <div className="bg-linear-to-br from-[#073B4C] to-[#118AB2] rounded-xl p-6 text-white animate-fade-in delay-200">
+            <div className="inline-flex items-center justify-center w-14 h-14 mb-4 rounded-2xl bg-white/20 backdrop-blur-sm">
+              <Target className="w-7 h-7" />
+            </div>
             <div className="text-2xl font-bold">{data.insights.consistency}%</div>
             <div className="text-sm opacity-90">Consistency Score</div>
-            <div className="mt-2 text-xs opacity-75">
-              {data.insights.consistency >= 80 
-                ? 'Excellent tracking! 🌟' 
-                : 'Room to improve 📈'}
+            <div className="mt-2 text-xs opacity-75 flex items-center gap-1">
+              {data.insights.consistency >= 80 ? (
+                <>
+                  <Sparkles className="w-3 h-3" />
+                  <span>Excellent tracking!</span>
+                </>
+              ) : (
+                <>
+                  <TrendingUp className="w-3 h-3" />
+                  <span>Room to improve</span>
+                </>
+              )}
             </div>
-          </motion.div>
+          </div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
-            className="bg-gradient-to-br from-[#118AB2] to-[#06D6A0] rounded-xl p-6 text-white"
-          >
-            <div className="text-3xl mb-2">🔥</div>
+          <div className="bg-linear-to-br from-[#118AB2] to-[#06D6A0] rounded-xl p-6 text-white animate-fade-in delay-300">
+            <div className="inline-flex items-center justify-center w-14 h-14 mb-4 rounded-2xl bg-white/20 backdrop-blur-sm">
+              <Flame className="w-7 h-7" />
+            </div>
             <div className="text-2xl font-bold">{data.insights.activeDays}</div>
             <div className="text-sm opacity-90">Active Days</div>
-            <div className="mt-2 text-xs opacity-75">
-              {data.insights.activeDays === 7 ? 'Perfect week! 🏆' : `${7 - data.insights.activeDays} days missed`}
+            <div className="mt-2 text-xs opacity-75 flex items-center gap-1">
+              {data.insights.activeDays === 7 ? (
+                <>
+                  <Trophy className="w-3 h-3" />
+                  <span>Perfect week!</span>
+                </>
+              ) : (
+                <span>{7 - data.insights.activeDays} days missed</span>
+              )}
             </div>
-          </motion.div>
+          </div>
         </div>
 
         {/* Charts Row */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           
           {/* Calories Chart */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4 }}
-            className="bg-white rounded-xl p-6 shadow-sm border border-gray-100"
-          >
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">📈 Calories Consumed vs Target</h3>
+          <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100 animate-slide-in-left delay-400">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="inline-flex items-center justify-center w-10 h-10 rounded-xl bg-[#06D6A0]/10">
+                <TrendingUp className="w-5 h-5 text-[#06D6A0]" />
+              </div>
+              <h3 className="text-lg font-semibold text-gray-900">Calories Consumed vs Target</h3>
+            </div>
             
             <div className="space-y-3">
               {data.days.map((day, i) => {
@@ -167,15 +200,16 @@ export default function ReportsPage() {
                       <span className="font-medium text-gray-900">{consumed} kcal</span>
                     </div>
                     <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
-                      <motion.div
-                        initial={{ width: 0 }}
-                        animate={{ width: `${Math.min(percentage, 100)}%` }}
-                        transition={{ delay: 0.5 + i * 0.05, duration: 0.5 }}
-                        className={`h-full ${
+                      <div
+                        className={`h-full transition-all duration-500 ease-out ${
                           percentage > 110 ? 'bg-red-500' :
                           percentage > 90 ? 'bg-[#06D6A0]' :
                           'bg-[#FFD166]'
                         }`}
+                        style={{ 
+                          width: `${Math.min(percentage, 100)}%`,
+                          transitionDelay: `${500 + i * 50}ms`
+                        }}
                       />
                     </div>
                   </div>
@@ -197,16 +231,16 @@ export default function ReportsPage() {
                 <span className="text-gray-600">Over target</span>
               </div>
             </div>
-          </motion.div>
+          </div>
 
           {/* Weight Trend Chart */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5 }}
-            className="bg-white rounded-xl p-6 shadow-sm border border-gray-100"
-          >
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">⚖️ Weight Trend</h3>
+          <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100 animate-slide-in-right delay-400">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="inline-flex items-center justify-center w-10 h-10 rounded-xl bg-[#073B4C]/10">
+                <Scale className="w-5 h-5 text-[#073B4C]" />
+              </div>
+              <h3 className="text-lg font-semibold text-gray-900">Weight Trend</h3>
+            </div>
             
             <div className="relative h-48 flex items-end justify-between gap-2">
               {data.weight.map((weight, i) => {
@@ -216,16 +250,17 @@ export default function ReportsPage() {
                 
                 return (
                   <div key={i} className="flex-1 flex flex-col items-center gap-2">
-                    <motion.div
-                      initial={{ height: 0 }}
-                      animate={{ height: `${height}%` }}
-                      transition={{ delay: 0.6 + i * 0.05, duration: 0.5 }}
-                      className="w-full bg-gradient-to-t from-[#073B4C] to-[#06D6A0] rounded-t-lg relative group"
+                    <div
+                      className="w-full bg-linear-to-t from-[#073B4C] to-[#06D6A0] rounded-t-lg relative group transition-all duration-500 ease-out"
+                      style={{ 
+                        height: `${height}%`,
+                        transitionDelay: `${600 + i * 50}ms`
+                      }}
                     >
                       <div className="absolute -top-8 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity bg-gray-900 text-white text-xs px-2 py-1 rounded whitespace-nowrap">
                         {weight} kg
                       </div>
-                    </motion.div>
+                    </div>
                     <span className="text-xs text-gray-500">{data.days[i]}</span>
                   </div>
                 );
@@ -233,67 +268,75 @@ export default function ReportsPage() {
             </div>
 
             <div className="mt-6 p-3 bg-green-50 rounded-lg text-center">
-              <p className="text-green-800 font-medium">
-                {data.insights.weightChange < 0 ? '↓' : '↑'} 
+              <p className="text-green-800 font-medium flex items-center justify-center gap-1">
+                {data.insights.weightChange < 0 ? (
+                  <TrendingDown className="w-4 h-4" />
+                ) : (
+                  <TrendingUp className="w-4 h-4" />
+                )}
                 {Math.abs(data.insights.weightChange)} kg this week
               </p>
               <p className="text-sm text-green-600 mt-1">
                 {data.insights.weightChange < 0 
                   ? 'You\'re making great progress!' 
-                  : 'Keep up the good work!'}
-              </p>
-            </div>
-          </motion.div>
+                : 'Keep up the good work!'}
+            </p>
+          </div>
+        </div>
 
         </div>
 
         {/* Export Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.6 }}
-          className="bg-white rounded-xl p-6 shadow-sm border border-gray-100"
-        >
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">💾 Export Data</h3>
-          
+        <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100 animate-fade-in delay-400">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="inline-flex items-center justify-center w-10 h-10 rounded-xl bg-[#073B4C]/10">
+              <FileText className="w-5 h-5 text-[#073B4C]" />
+            </div>
+            <h3 className="text-lg font-semibold text-gray-900">Export Data</h3>
+          </div>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <button
               onClick={() => setShowExportModal(true)}
               className="py-3 bg-[#073B4C] text-white rounded-lg font-medium hover:bg-[#0a4d61] transition-colors flex items-center justify-center gap-2"
             >
-              <span>📄</span> Export CSV
+              <div className="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-white/20">
+                <FileSpreadsheet className="w-4 h-4" />
+              </div>
+              <span>Export CSV</span>
             </button>
             
             <button
               onClick={() => handleExport('pdf')}
               className="py-3 bg-[#EF476F] text-white rounded-lg font-medium hover:bg-[#d63b5f] transition-colors flex items-center justify-center gap-2"
             >
-              <span>📑</span> Export PDF
+              <div className="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-white/20">
+                <FileText className="w-4 h-4" />
+              </div>
+              <span>Export PDF</span>
             </button>
             
             <button
               onClick={handleEmailReport}
               className="py-3 bg-[#06D6A0] text-white rounded-lg font-medium hover:bg-[#05c28f] transition-colors flex items-center justify-center gap-2"
             >
-              <span>📧</span> Email Report
+              <div className="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-white/20">
+                <Mail className="w-4 h-4" />
+              </div>
+              <span>Email Report</span>
             </button>
           </div>
 
           <p className="text-sm text-gray-500 mt-4 text-center">
             Your data includes nutrition logs, workout history, and progress metrics
           </p>
-        </motion.div>
+        </div>
 
       </div>
 
       {/* Export Modal */}
       {showExportModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 px-4">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            className="bg-white rounded-xl p-6 max-w-md w-full"
-          >
+          <div className="bg-white rounded-xl p-6 max-w-md w-full animate-scale-in">
             <h3 className="text-xl font-bold text-gray-900 mb-4">Export to CSV</h3>
             
             <div className="space-y-3 mb-6">
@@ -329,7 +372,7 @@ export default function ReportsPage() {
                 Download
               </button>
             </div>
-          </motion.div>
+          </div>
         </div>
       )}
     </div>

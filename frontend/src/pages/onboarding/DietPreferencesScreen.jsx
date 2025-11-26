@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { motion } from 'framer-motion';
 import { 
     Utensils, 
     Leaf, 
@@ -87,12 +86,7 @@ const DietPreferencesScreen = ({ onNext, onBack, onSkip, initialValue = {} }) =>
 
     return (
         <div className="flex flex-col items-center justify-center min-h-screen bg-linear-to-br from-primary/5 via-bg to-accent/5 px-4 py-8">
-            <motion.div
-                initial={{ opacity: 0, x: 50 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -50 }}
-                className="max-w-4xl w-full"
-            >
+            <div className="max-w-4xl w-full animate-slide-in-right">
                 {/* Progress Indicator */}
                 <div className="mb-8">
                     <div className="flex justify-between text-sm text-text-secondary mb-2">
@@ -100,11 +94,7 @@ const DietPreferencesScreen = ({ onNext, onBack, onSkip, initialValue = {} }) =>
                         <span>82% complete</span>
                     </div>
                     <div className="w-full bg-border rounded-full h-2">
-                        <motion.div
-                            initial={{ width: '73%' }}
-                            animate={{ width: '82%' }}
-                            className="bg-primary h-2 rounded-full"
-                        />
+                        <div className="bg-primary h-2 rounded-full transition-all duration-500" style={{ width: '82%' }} />
                     </div>
                 </div>
 
@@ -118,14 +108,9 @@ const DietPreferencesScreen = ({ onNext, onBack, onSkip, initialValue = {} }) =>
                     </div>
 
                     {/* Icon */}
-                    <motion.div
-                        initial={{ scale: 0 }}
-                        animate={{ scale: 1 }}
-                        transition={{ delay: 0.2, type: 'spring' }}
-                        className="flex justify-center mb-6"
-                    >
+                    <div className="flex justify-center mb-6 animate-bounce-in delay-200">
                         <Utensils className="w-16 h-16 text-primary" />
-                    </motion.div>
+                    </div>
 
                     {/* Title */}
                     <h1 className="text-3xl font-bold text-text text-center mb-2">
@@ -144,19 +129,15 @@ const DietPreferencesScreen = ({ onNext, onBack, onSkip, initialValue = {} }) =>
                             {dietTypes.map((diet, index) => {
                                 const IconComponent = diet.icon;
                                 return (
-                                    <motion.button
+                                    <button
                                         key={diet.value}
-                                        initial={{ opacity: 0, scale: 0.9 }}
-                                        animate={{ opacity: 1, scale: 1 }}
-                                        transition={{ delay: index * 0.05 }}
                                         onClick={() => setDietType(diet.value)}
-                                        whileHover={{ scale: 1.05 }}
-                                        whileTap={{ scale: 0.95 }}
-                                        className={`relative p-4 rounded-xl border-2 transition-all ${
+                                        className={`relative p-4 rounded-xl border-2 transition-all hover:scale-105 active:scale-95 animate-scale-in ${
                                             dietType === diet.value
                                                 ? 'border-primary bg-primary/10 shadow-md'
                                                 : 'border-border bg-bg hover:border-primary/50'
                                         }`}
+                                        style={{ animationDelay: `${index * 50}ms` }}
                                     >
                                         <div className="flex justify-center mb-2">
                                             <IconComponent className={`w-8 h-8 ${diet.color}`} />
@@ -168,15 +149,11 @@ const DietPreferencesScreen = ({ onNext, onBack, onSkip, initialValue = {} }) =>
                                             {diet.description}
                                         </p>
                                         {dietType === diet.value && (
-                                            <motion.div
-                                                initial={{ scale: 0 }}
-                                                animate={{ scale: 1 }}
-                                                className="absolute top-2 right-2 bg-primary text-white rounded-full w-6 h-6 flex items-center justify-center"
-                                            >
+                                            <div className="absolute top-2 right-2 bg-primary text-white rounded-full w-6 h-6 flex items-center justify-center animate-scale-in">
                                                 <Check className="w-4 h-4" />
-                                            </motion.div>
+                                            </div>
                                         )}
-                                    </motion.button>
+                                    </button>
                                 );
                             })}
                         </div>
@@ -189,19 +166,15 @@ const DietPreferencesScreen = ({ onNext, onBack, onSkip, initialValue = {} }) =>
                             {commonAllergies.map((allergy, index) => {
                                 const IconComponent = allergy.icon;
                                 return (
-                                    <motion.button
+                                    <button
                                         key={allergy.value}
-                                        initial={{ opacity: 0, scale: 0.9 }}
-                                        animate={{ opacity: 1, scale: 1 }}
-                                        transition={{ delay: 0.3 + index * 0.05 }}
                                         onClick={() => toggleAllergy(allergy.value)}
-                                        whileHover={{ scale: 1.05 }}
-                                        whileTap={{ scale: 0.95 }}
-                                        className={`relative p-3 rounded-xl border-2 transition-all ${
+                                        className={`relative p-3 rounded-xl border-2 transition-all hover:scale-105 active:scale-95 animate-fade-in ${
                                             allergies.includes(allergy.value)
                                                 ? 'border-red-500 bg-red-50 shadow-md'
                                                 : 'border-border bg-bg hover:border-red-300'
                                         }`}
+                                        style={{ animationDelay: `${300 + index * 50}ms` }}
                                     >
                                         <div className="flex justify-center mb-1">
                                             <IconComponent className={`w-6 h-6 ${allergy.color}`} />
@@ -210,15 +183,11 @@ const DietPreferencesScreen = ({ onNext, onBack, onSkip, initialValue = {} }) =>
                                             {allergy.label}
                                         </p>
                                         {allergies.includes(allergy.value) && (
-                                            <motion.div
-                                                initial={{ scale: 0 }}
-                                                animate={{ scale: 1 }}
-                                                className="absolute top-2 right-2 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center"
-                                            >
+                                            <div className="absolute top-2 right-2 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center animate-scale-in">
                                                 <Check className="w-3 h-3" />
-                                            </motion.div>
+                                            </div>
                                         )}
-                                    </motion.button>
+                                    </button>
                                 );
                             })}
                         </div>
@@ -231,19 +200,15 @@ const DietPreferencesScreen = ({ onNext, onBack, onSkip, initialValue = {} }) =>
                             {commonDislikes.map((dislike, index) => {
                                 const IconComponent = dislike.icon;
                                 return (
-                                    <motion.button
+                                    <button
                                         key={dislike.value}
-                                        initial={{ opacity: 0, scale: 0.9 }}
-                                        animate={{ opacity: 1, scale: 1 }}
-                                        transition={{ delay: 0.5 + index * 0.05 }}
                                         onClick={() => toggleDislike(dislike.value)}
-                                        whileHover={{ scale: 1.05 }}
-                                        whileTap={{ scale: 0.95 }}
-                                        className={`relative p-3 rounded-xl border-2 transition-all ${
+                                        className={`relative p-3 rounded-xl border-2 transition-all hover:scale-105 active:scale-95 animate-fade-in ${
                                             dislikes.includes(dislike.value)
                                                 ? 'border-secondary bg-secondary/10 shadow-md'
                                                 : 'border-border bg-bg hover:border-secondary/50'
                                         }`}
+                                        style={{ animationDelay: `${500 + index * 50}ms` }}
                                     >
                                         <div className="flex justify-center mb-1">
                                             <IconComponent className={`w-6 h-6 ${dislike.color}`} />
@@ -252,15 +217,11 @@ const DietPreferencesScreen = ({ onNext, onBack, onSkip, initialValue = {} }) =>
                                             {dislike.label}
                                         </p>
                                         {dislikes.includes(dislike.value) && (
-                                            <motion.div
-                                                initial={{ scale: 0 }}
-                                                animate={{ scale: 1 }}
-                                                className="absolute top-2 right-2 bg-secondary text-white rounded-full w-5 h-5 flex items-center justify-center"
-                                            >
+                                            <div className="absolute top-2 right-2 bg-secondary text-white rounded-full w-5 h-5 flex items-center justify-center animate-scale-in">
                                                 <Check className="w-3 h-3" />
-                                            </motion.div>
+                                            </div>
                                         )}
-                                    </motion.button>
+                                    </button>
                                 );
                             })}
                         </div>
@@ -269,40 +230,34 @@ const DietPreferencesScreen = ({ onNext, onBack, onSkip, initialValue = {} }) =>
                     {/* Info Box */}
                     <div className="bg-accent/10 border border-accent/30 rounded-lg p-4 mb-6">
                         <p className="text-sm text-text-secondary flex items-start gap-2">
-                            <Lightbulb className="w-5 h-5 text-accent flex-shrink-0 mt-0.5" />
+                            <Lightbulb className="w-5 h-5 text-accent shrink-0 mt-0.5" />
                             <span><strong>Tip:</strong> Select one diet type and any allergies or dislikes. We'll suggest meals that match your preferences.</span>
                         </p>
                     </div>
 
                     {/* Navigation Buttons */}
                     <div className="flex gap-4">
-                        <motion.button
+                        <button
                             onClick={onBack}
-                            whileHover={{ scale: 1.02 }}
-                            whileTap={{ scale: 0.98 }}
-                            className="flex-1 py-3 bg-bg border-2 border-border text-text rounded-lg font-semibold hover:bg-surface transition"
+                            className="flex-1 py-3 bg-bg border-2 border-border text-text rounded-lg font-semibold hover:bg-surface hover:scale-[1.02] active:scale-98 transition-all"
                         >
                             Back
-                        </motion.button>
-                        <motion.button
+                        </button>
+                        <button
                             onClick={onSkip}
-                            whileHover={{ scale: 1.02 }}
-                            whileTap={{ scale: 0.98 }}
-                            className="flex-1 py-3 bg-bg border-2 border-border text-text rounded-lg font-semibold hover:bg-surface transition"
+                            className="flex-1 py-3 bg-bg border-2 border-border text-text rounded-lg font-semibold hover:bg-surface hover:scale-[1.02] active:scale-98 transition-all"
                         >
                             Skip
-                        </motion.button>
-                        <motion.button
+                        </button>
+                        <button
                             onClick={handleNext}
-                            whileHover={{ scale: 1.02 }}
-                            whileTap={{ scale: 0.98 }}
-                            className="flex-2 py-3 bg-primary text-white rounded-lg font-semibold shadow-md hover:shadow-lg hover:bg-primary/90 transition"
+                            className="flex-2 py-3 bg-primary text-white rounded-lg font-semibold shadow-md hover:shadow-lg hover:bg-primary/90 hover:scale-[1.02] active:scale-98 transition-all"
                         >
                             Continue
-                        </motion.button>
+                        </button>
                     </div>
                 </div>
-            </motion.div>
+            </div>
         </div>
     );
 };

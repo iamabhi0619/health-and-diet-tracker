@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { ArrowLeft, Flame, Smartphone, Activity, Dumbbell, Sparkles, Trophy } from 'lucide-react';
 
 const AddWorkoutPage = () => {
     const navigate = useNavigate();
@@ -16,10 +16,10 @@ const AddWorkoutPage = () => {
     });
 
     const exerciseTypes = [
-        { value: 'cardio', label: 'Cardio', emoji: '🏃', color: 'bg-accent/10 text-accent' },
-        { value: 'strength', label: 'Strength', emoji: '🏋️', color: 'bg-primary/10 text-primary' },
-        { value: 'flexibility', label: 'Flexibility', emoji: '🧘', color: 'bg-secondary/10 text-secondary' },
-        { value: 'sports', label: 'Sports', emoji: '⚽', color: 'bg-info/10 text-info' },
+        { value: 'cardio', label: 'Cardio', icon: Activity, color: 'bg-accent/10 text-accent', iconColor: 'text-accent' },
+        { value: 'strength', label: 'Strength', icon: Dumbbell, color: 'bg-primary/10 text-primary', iconColor: 'text-primary' },
+        { value: 'flexibility', label: 'Flexibility', icon: Sparkles, color: 'bg-secondary/10 text-secondary', iconColor: 'text-secondary' },
+        { value: 'sports', label: 'Sports', icon: Trophy, color: 'bg-info/10 text-info', iconColor: 'text-info' },
     ];
 
     const intensityLevels = [
@@ -60,15 +60,13 @@ const AddWorkoutPage = () => {
     return (
         <div className="min-h-screen bg-bg pb-6 pt-16">
             {/* Header */}
-            <div className="bg-gradient-to-r from-accent to-primary text-white px-4 py-6 sticky top-16 z-10">
+            <div className="bg-linear-to-r from-accent to-primary text-white px-4 py-6 sticky top-16 z-10">
                 <div className="max-w-2xl mx-auto flex items-center gap-4">
                     <button
                         onClick={() => navigate('/workouts')}
                         className="p-2 hover:bg-white/20 rounded-full transition"
                     >
-                        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                        </svg>
+                        <ArrowLeft className="w-6 h-6" />
                     </button>
                     <div className="flex-1">
                         <h1 className="text-2xl font-bold">Log Workout</h1>
@@ -82,26 +80,34 @@ const AddWorkoutPage = () => {
                 <div className="mb-6">
                     <label className="block text-sm font-semibold text-text mb-3">Activity Type</label>
                     <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                        {exerciseTypes.map((type) => (
-                            <motion.button
-                                key={type.value}
-                                type="button"
-                                onClick={() => setWorkoutData({ ...workoutData, type: type.value, name: '' })}
-                                whileTap={{ scale: 0.95 }}
-                                className={`p-4 rounded-xl text-center transition ${
-                                    workoutData.type === type.value
-                                        ? `${type.color} border-2 border-current shadow-md`
-                                        : 'bg-surface border-2 border-transparent hover:bg-surface/80'
-                                }`}
-                            >
-                                <div className="text-3xl mb-2">{type.emoji}</div>
-                                <div className={`text-sm font-semibold ${
-                                    workoutData.type === type.value ? '' : 'text-text'
-                                }`}>
-                                    {type.label}
-                                </div>
-                            </motion.button>
-                        ))}
+                        {exerciseTypes.map((type) => {
+                            const IconComponent = type.icon;
+                            return (
+                                <button
+                                    key={type.value}
+                                    type="button"
+                                    onClick={() => setWorkoutData({ ...workoutData, type: type.value, name: '' })}
+                                    className={`p-4 rounded-xl text-center transition active:scale-95 ${
+                                        workoutData.type === type.value
+                                            ? `${type.color} border-2 border-current shadow-md`
+                                            : 'bg-surface border-2 border-transparent hover:bg-surface/80'
+                                    }`}
+                                >
+                                    <div className="flex justify-center mb-2">
+                                        <div className={`w-12 h-12 rounded-full flex items-center justify-center ${
+                                            workoutData.type === type.value ? 'bg-white/50' : 'bg-gray-100'
+                                        }`}>
+                                            <IconComponent className={`w-7 h-7 ${type.iconColor}`} />
+                                        </div>
+                                    </div>
+                                    <div className={`text-sm font-semibold ${
+                                        workoutData.type === type.value ? '' : 'text-text'
+                                    }`}>
+                                        {type.label}
+                                    </div>
+                                </button>
+                            );
+                        })}
                     </div>
                 </div>
 
@@ -189,25 +195,24 @@ const AddWorkoutPage = () => {
                         <label className="block text-sm font-semibold text-text mb-3">Intensity</label>
                         <div className="grid grid-cols-3 gap-3">
                             {intensityLevels.map((level) => (
-                                <motion.button
+                                <button
                                     key={level.value}
                                     type="button"
                                     onClick={() => setWorkoutData({ ...workoutData, intensity: level.value })}
-                                    whileTap={{ scale: 0.95 }}
-                                    className={`p-3 rounded-xl font-semibold text-sm transition ${
+                                    className={`p-3 rounded-xl font-semibold text-sm transition active:scale-95 ${
                                         workoutData.intensity === level.value
                                             ? level.color
                                             : 'bg-bg border border-border text-text hover:bg-surface'
                                     }`}
                                 >
                                     {level.label}
-                                </motion.button>
+                                </button>
                             ))}
                         </div>
                     </div>
 
                     {/* Auto-calculated Calories */}
-                    <div className="bg-gradient-to-br from-accent/10 to-primary/10 rounded-xl p-4 border-2 border-accent/20">
+                    <div className="bg-linear-to-br from-accent/10 to-primary/10 rounded-xl p-4 border-2 border-accent/20">
                         <div className="flex items-center justify-between">
                             <div>
                                 <p className="text-sm text-text-secondary mb-1">Estimated Calories Burned</p>
@@ -219,7 +224,9 @@ const AddWorkoutPage = () => {
                                     Based on {workoutData.duration} min {workoutData.intensity} intensity {workoutData.type}
                                 </p>
                             </div>
-                            <div className="text-4xl">🔥</div>
+                            <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center">
+                                <Flame className="w-7 h-7 text-orange-500" />
+                            </div>
                         </div>
                         
                         {/* Manual Override */}
@@ -241,14 +248,10 @@ const AddWorkoutPage = () => {
                 </div>
 
                 {/* Google Fit Integration Banner */}
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="bg-surface rounded-xl p-4 mb-6 border-2 border-dashed border-border hover:border-primary transition cursor-pointer"
-                >
+                <div className="bg-surface rounded-xl p-4 mb-6 border-2 border-dashed border-border hover:border-primary transition cursor-pointer animate-fade-in">
                     <div className="flex items-center gap-3">
-                        <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center text-2xl">
-                            📱
+                        <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
+                            <Smartphone className="w-6 h-6 text-primary" />
                         </div>
                         <div className="flex-1">
                             <h3 className="font-semibold text-text">Connect Google Fit</h3>
@@ -261,17 +264,15 @@ const AddWorkoutPage = () => {
                             Connect
                         </button>
                     </div>
-                </motion.div>
+                </div>
 
                 {/* Submit Button */}
-                <motion.button
+                <button
                     type="submit"
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    className="w-full py-4 bg-gradient-to-r from-accent to-primary text-white font-bold rounded-xl shadow-lg"
+                    className="w-full py-4 bg-linear-to-r from-accent to-primary text-white font-bold rounded-xl shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-transform"
                 >
                     Log Workout
-                </motion.button>
+                </button>
             </form>
         </div>
     );
