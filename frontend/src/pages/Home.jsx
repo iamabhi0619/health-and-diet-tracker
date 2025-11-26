@@ -7,7 +7,7 @@ import {
   BarChart3, 
   Bell, 
   Target, 
-  Sparkles 
+  Sparkles
 } from 'lucide-react';
 
 function Home() {
@@ -52,7 +52,7 @@ function Home() {
                 <Link to="/signup">
                   <button className="group px-10 py-5 bg-[#06D6A0] text-white rounded-2xl font-bold text-lg shadow-lg hover:shadow-xl hover:scale-105 hover:-translate-y-1 transition-all duration-300">
                     <span className="flex items-center gap-2">
-                      Start Free Trial
+                      Start Tracking Free
                       <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                     </span>
                   </button>
@@ -129,7 +129,7 @@ function Home() {
                 </section>
 
                 {/* Features Section */}
-      <section id="tracker" className="relative bg-gradient-to-b from-white via-cyan-50/20 to-white py-32 overflow-hidden">
+      <section id="features" className="relative bg-gradient-to-b from-white via-cyan-50/20 to-white py-32 overflow-hidden">
         {/* Background decoration */}
         <div className="absolute top-20 left-10 w-72 h-72 rounded-full bg-[#06D6A0]/15 blur-3xl opacity-30" />
         <div className="absolute bottom-20 right-10 w-96 h-96 rounded-full bg-cyan-400/10 blur-3xl opacity-15" />
@@ -237,6 +237,180 @@ function Home() {
         </div>
       </section>
 
+      {/* Product Screenshot */}
+      <section className="py-24 bg-gradient-to-br from-gray-50 to-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl md:text-5xl font-black text-gray-900 mb-4">
+              Your Personal Health Dashboard
+            </h2>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              Track everything in one beautiful, intuitive interface
+            </p>
+          </div>
+
+          <div className="max-w-5xl mx-auto">
+            {/* Dashboard Preview Card */}
+            <div className="bg-gradient-to-br from-[#06D6A0]/10 via-white to-[#073B4C]/10 rounded-2xl p-8 shadow-2xl border border-gray-100">
+              
+              {/* Header */}
+              <div className="flex items-center justify-between mb-6">
+                <div className="flex items-center gap-2">
+                  <div className="p-2 bg-[#06D6A0]/10 rounded-lg">
+                    <BarChart3 className="w-6 h-6 text-[#06D6A0]" />
+                  </div>
+                  <h3 className="text-xl font-bold text-gray-900">Today's Overview</h3>
+                </div>
+                <div className="text-sm text-gray-500">
+                  {new Date().toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}
+                </div>
+              </div>
+
+              {/* Stats Grid */}
+              <div className="grid md:grid-cols-3 gap-4 mb-6">
+                {/* Calories In */}
+                <div className="bg-white rounded-xl p-5 shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
+                  <div className="text-sm text-gray-600 mb-1">Calories In</div>
+                  <div className="text-3xl font-bold bg-gradient-to-r from-[#FFD166] to-[#EF476F] bg-clip-text text-transparent">
+                    1,850
+                  </div>
+                  <div className="text-xs text-gray-500 mt-1">from nutrition</div>
+                </div>
+
+                {/* Calories Out */}
+                <div className="bg-white rounded-xl p-5 shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
+                  <div className="text-sm text-gray-600 mb-1">Calories Out</div>
+                  <div className="text-3xl font-bold bg-gradient-to-r from-[#06D6A0] to-[#073B4C] bg-clip-text text-transparent">
+                    420
+                  </div>
+                  <div className="text-xs text-gray-500 mt-1">from workouts</div>
+                </div>
+
+                {/* Remaining */}
+                <div className="bg-white rounded-xl p-5 shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
+                  <div className="text-sm text-gray-600 mb-1">Remaining</div>
+                  <div className="text-3xl font-bold text-gray-900">
+                    640
+                  </div>
+                  <div className="text-xs text-gray-500 mt-1">to reach goal</div>
+                </div>
+              </div>
+
+              {/* Progress Bar */}
+              <div className="bg-white rounded-xl p-5 shadow-sm border border-gray-100">
+                <div className="flex justify-between text-sm mb-3">
+                  <span className="text-gray-600 font-medium">Daily Progress</span>
+                  <span className="font-bold text-gray-900">89%</span>
+                </div>
+                <div className="h-4 bg-gray-100 rounded-full overflow-hidden">
+                  <div
+                    className="h-full bg-gradient-to-r from-[#06D6A0] to-[#073B4C] rounded-full transition-all duration-1000 ease-out"
+                    style={{ width: '89%' }}
+                  />
+                </div>
+                <div className="flex justify-between text-xs text-gray-500 mt-2">
+                  <span>0</span>
+                  <span>Target: 2,000 kcal</span>
+                </div>
+              </div>
+
+              {/* Bottom Stats */}
+              <div className="grid grid-cols-2 gap-4 mt-6">
+                {/* Streak */}
+                <div className="bg-gradient-to-br from-[#FFD166] to-[#EF476F] rounded-xl p-5 text-white shadow-md">
+                  <div className="flex items-center gap-2 mb-2">
+                    <Sparkles className="w-5 h-5" />
+                    <span className="text-sm font-medium">Streak</span>
+                  </div>
+                  <div className="text-3xl font-bold">12</div>
+                  <div className="text-xs opacity-90">days in a row!</div>
+                </div>
+
+                {/* Weekly Progress */}
+                <div className="bg-gradient-to-br from-[#073B4C] to-[#118AB2] rounded-xl p-5 text-white shadow-md">
+                  <div className="flex items-center gap-2 mb-2">
+                    <Target className="w-5 h-5" />
+                    <span className="text-sm font-medium">This Week</span>
+                  </div>
+                  <div className="text-3xl font-bold">86%</div>
+                  <div className="text-xs opacity-90">goal completion</div>
+                </div>
+              </div>
+            </div>
+
+            {/* Additional Mini Cards */}
+            <div className="grid md:grid-cols-3 gap-4 mt-6">
+              <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-100 text-center hover:shadow-md transition-shadow">
+                <div className="text-2xl font-bold text-[#06D6A0] mb-1">8,432</div>
+                <div className="text-sm text-gray-600">Steps Today</div>
+              </div>
+              <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-100 text-center hover:shadow-md transition-shadow">
+                <div className="text-2xl font-bold text-[#38BDF8] mb-1">2.5L</div>
+                <div className="text-sm text-gray-600">Water Intake</div>
+              </div>
+              <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-100 text-center hover:shadow-md transition-shadow">
+                <div className="text-2xl font-bold text-[#EF476F] mb-1">-0.7kg</div>
+                <div className="text-sm text-gray-600">This Week</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Benefits Section - Why Choose Us */}
+      <section className="py-24 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-black text-gray-900 mb-4">
+              Why Choose FitMind?
+            </h2>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              Join thousands who've transformed their health with our platform
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {[
+              {
+                icon: Target,
+                title: 'Goal-Oriented',
+                desc: 'Set and track personalized health goals'
+              },
+              {
+                icon: Sparkles,
+                title: 'AI-Powered',
+                desc: 'Smart recommendations based on your data'
+              },
+              {
+                icon: Bell,
+                title: 'Smart Reminders',
+                desc: 'Never miss a meal or workout'
+              },
+              {
+                icon: BarChart3,
+                title: 'Detailed Analytics',
+                desc: 'Beautiful charts and progress reports'
+              }
+            ].map((benefit) => {
+              const IconComponent = benefit.icon;
+              return (
+                <div key={benefit.title} className="text-center">
+                  <div className="inline-flex items-center justify-center w-16 h-16 mb-4 rounded-2xl bg-gradient-to-br from-[#06D6A0]/10 to-cyan-500/10">
+                    <IconComponent className="w-8 h-8 text-[#06D6A0]" strokeWidth={2.5} />
+                  </div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-2">
+                    {benefit.title}
+                  </h3>
+                  <p className="text-gray-600">
+                    {benefit.desc}
+                  </p>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
       {/* Progress Section */}
       <section id="progress" className="py-24 bg-gradient-to-br from-gray-50 to-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -280,14 +454,14 @@ function Home() {
         <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div>
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-              Ready to Transform Your Health?
+              Start Your Health Journey Today
             </h2>
             <p className="text-xl text-white/90 mb-10 max-w-2xl mx-auto">
               Join thousands of users achieving their fitness goals with FitMind.
             </p>
             <Link to="/signup">
               <button className="px-12 py-5 bg-white text-[#073B4C] rounded-full hover:bg-gray-50 shadow-2xl text-lg font-bold hover:scale-105 hover:-translate-y-1 transition-all duration-300">
-                Start Free Trial
+                Start Tracking Free
               </button>
             </Link>
           </div>
