@@ -202,6 +202,7 @@ const login = async (req, res, next) => {
             httpOnly: true,
             secure: config.NODE_ENV === "production",
             sameSite: "Strict",
+            sameSite: config.NODE_ENV === "production" ? "none" : "lax",
             maxAge: 30 * 24 * 60 * 60 * 1000,
         });
 
