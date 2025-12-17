@@ -201,6 +201,7 @@ const login = async (req, res, next) => {
         res.cookie("session_token", sessionToken, {
             httpOnly: true,
             secure: config.NODE_ENV === "production",
+            sameSite: "Strict",
             sameSite: config.NODE_ENV === "production" ? "none" : "lax",
             maxAge: 30 * 24 * 60 * 60 * 1000,
         });
