@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: health-diet-tracker
+    runtime: node
+    buildCommand: cd backend && npm install && cd ../frontend && npm install && npm run build
+    startCommand: cd backend && npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 5050
+    healthCheckPath: /health
+    plan: free

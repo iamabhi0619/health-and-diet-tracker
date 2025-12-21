@@ -1,0 +1,28 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "version": 2,
+  "buildCommand": "npm run build",
+  "installCommand": "npm run install:all",
+  "framework": null,
+  "outputDirectory": "frontend/dist",
+  "rewrites": [
+    {
+      "source": "/v1/:path*",
+      "destination": "/backend/server.js"
+    },
+    {
+      "source": "/health",
+      "destination": "/backend/server.js"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/frontend/dist/index.html"
+    }
+  ],
+  "functions": {
+    "backend/server.js": {
+      "runtime": "nodejs20.x",
+      "memory": 1024
+    }
+  }
+}
